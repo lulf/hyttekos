@@ -1,0 +1,624 @@
+/* Hyttekos - Cozy Cabin Styling */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #2d1810 0%, #1a0e08 100%);
+    color: #FFE4B5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styling */
+.cabin-header {
+    background: linear-gradient(90deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+    background-size: 200% 100%;
+    animation: woodGrain 10s ease-in-out infinite alternate;
+    padding: 20px 0;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #654321;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.cabin-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(101, 67, 33, 0.1) 2px,
+        rgba(101, 67, 33, 0.1) 4px
+    );
+    pointer-events: none;
+}
+
+@keyframes woodGrain {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.cabin-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #FFE4B5;
+    font-family: Georgia, serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 1;
+}
+
+.cabin-subtitle {
+    text-align: center;
+    color: #DEB887;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.current-time {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: rgba(62, 39, 35, 0.9);
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #8D6E63;
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+
+.current-time .date {
+    font-size: 0.8rem;
+    color: #DEB887;
+    margin-bottom: 2px;
+}
+
+.current-time .time {
+    font-size: 1.1rem;
+    color: #FFE4B5;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+}
+
+/* Main Content */
+.main-content {
+    padding: 0 0 100px 0;
+}
+
+/* Dashboard Layout */
+#dashboard {
+    margin-bottom: 30px;
+}
+
+.temperature-card {
+    background: rgba(74, 44, 42, 0.95);
+    border: 2px solid #8D6E63;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.temperature-card::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 10px;
+    background: rgba(93, 64, 55, 0.3);
+    z-index: 0;
+}
+
+.temperature-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Thermometer Icon */
+.thermometer-icon {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thermometer-bulb {
+    width: 16px;
+    height: 16px;
+    background: #FF6B35;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px;
+    z-index: 2;
+    animation: temperaturePulse 2s ease-in-out infinite;
+}
+
+.thermometer-tube {
+    width: 6px;
+    height: 35px;
+    background: #FF6B35;
+    border-radius: 3px 3px 0 0;
+    position: absolute;
+    top: 10px;
+    opacity: 0.8;
+}
+
+.degree-symbol {
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: bold;
+}
+
+@keyframes temperaturePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.temperature-info h3 {
+    color: #FFE4B5;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.temperature-reading {
+    font-size: 2.5rem;
+    color: #FF8A65;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+}
+
+.temperature-card .card-footer {
+    margin-top: 15px;
+    text-align: right;
+    color: #BCAAA4;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Control Cards */
+.control-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.control-card {
+    background: rgba(74, 44, 42, 0.95);
+    border: 2px solid #8D6E63;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.control-card:hover {
+    transform: translateY(-2px);
+}
+
+.control-card::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 10px;
+    background: rgba(93, 64, 55, 0.2);
+    z-index: 0;
+}
+
+.control-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Fire Icon for Heating */
+.fire-icon {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flame {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 1.5s ease-in-out infinite alternate;
+}
+
+.flame1 {
+    width: 20px;
+    height: 30px;
+    background: #FF5722;
+    left: 15px;
+    animation-delay: 0s;
+}
+
+.flame2 {
+    width: 15px;
+    height: 25px;
+    background: #FF8A50;
+    left: 18px;
+    top: 3px;
+    animation-delay: 0.3s;
+}
+
+.flame3 {
+    width: 8px;
+    height: 15px;
+    background: #FFB74D;
+    left: 21px;
+    top: 8px;
+    animation-delay: 0.6s;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1) rotate(-2deg); }
+    100% { transform: scale(1.1) rotate(2deg); }
+}
+
+/* Water Drop Icon */
+.water-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.water-drop {
+    width: 20px;
+    height: 30px;
+    background: #2196F3;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: relative;
+    animation: waterDrop 2s ease-in-out infinite;
+}
+
+.water-shine {
+    width: 6px;
+    height: 8px;
+    background: #BBDEFB;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    left: 4px;
+}
+
+@keyframes waterDrop {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.control-info h3 {
+    color: #FFE4B5;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.status-indicator {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-indicator.on {
+    background: rgba(76, 175, 80, 0.2);
+    color: #C8E6C9;
+    border: 1px solid #4CAF50;
+}
+
+.status-indicator.off {
+    background: rgba(158, 158, 158, 0.2);
+    color: #E0E0E0;
+    border: 1px solid #9E9E9E;
+}
+
+/* Toggle Buttons */
+.card-body {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 15px;
+}
+
+.toggle-button {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 25px;
+    border: 2px solid;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: none;
+    color: white;
+}
+
+.toggle-button.enabled {
+    background: #FF5722;
+    border-color: #FF8A50;
+    color: white;
+}
+
+.toggle-button.enabled:hover {
+    background: #FF8A50;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
+}
+
+.toggle-button.disabled {
+    background: #757575;
+    border-color: #9E9E9E;
+    color: white;
+    opacity: 0.7;
+}
+
+.toggle-button.disabled:hover {
+    background: #9E9E9E;
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(117, 117, 117, 0.3);
+}
+
+.card-footer {
+    color: #BCAAA4;
+    font-size: 0.8rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Status Bar */
+.status-bar {
+    background: rgba(62, 39, 35, 0.95);
+    border: 1px solid #6D4C41;
+    border-radius: 10px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    backdrop-filter: blur(5px);
+    margin-bottom: 20px;
+}
+
+.connection-status,
+.sensor-status,
+.last-sync {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #FFE4B5;
+}
+
+.status-indicator.online {
+    width: 8px;
+    height: 8px;
+    background: #4CAF50;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Footer */
+.cabin-footer {
+    background: linear-gradient(90deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+    padding: 20px 0;
+    text-align: center;
+    border-top: 3px solid #654321;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.cabin-footer p {
+    color: #8D6E63;
+    font-size: 0.9rem;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.logout-btn {
+    background: rgba(62, 39, 35, 0.8);
+    color: #FFE4B5;
+    border: 1px solid #8D6E63;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 20px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(62, 39, 35, 1);
+    transform: translateY(-1px);
+}
+
+/* Loading States */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #BCAAA4;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255, 138, 80, 0.3);
+    border-top: 3px solid #FF8A50;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.htmx-indicator {
+    display: none;
+}
+
+.htmx-request .htmx-indicator {
+    display: inline-block;
+}
+
+.htmx-request .button-text {
+    display: none;
+}
+
+/* Error States */
+.error-container {
+    text-align: center;
+    padding: 40px;
+    background: rgba(74, 44, 42, 0.95);
+    border: 2px solid #8D6E63;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.error-fragment {
+    text-align: center;
+    padding: 20px;
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid #F44336;
+    border-radius: 10px;
+    color: #FFCDD2;
+}
+
+.error-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    color: #FFCDD2;
+    margin-bottom: 15px;
+}
+
+.retry-button {
+    background: #FF5722;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-button.small {
+    padding: 5px 15px;
+    font-size: 0.8rem;
+}
+
+.retry-button:hover {
+    background: #FF8A50;
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .cabin-title {
+        font-size: 2rem;
+    }
+    
+    .current-time {
+        position: static;
+        margin: 15px auto 0;
+        display: inline-block;
+    }
+    
+    .control-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .status-bar {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .cabin-footer {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 0;
+    }
+    
+    .cabin-footer p {
+        padding: 0;
+    }
+    
+    .logout-btn {
+        margin: 0;
+    }
+    
+    .main-content {
+        padding-bottom: 120px;
+    }
+}

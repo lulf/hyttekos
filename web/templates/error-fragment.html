@@ -1,0 +1,10 @@
+{{define "error-fragment"}}
+<div class="error-fragment">
+    <div class="error-icon">⚠️</div>
+    <p class="error-message">{{.error}}</p>
+    <button onclick="htmx.ajax('GET', window.location.href, {target: 'body', swap: 'innerHTML'})" 
+            class="retry-button small">
+        Prøv igjen
+    </button>
+</div>
+{{end}}

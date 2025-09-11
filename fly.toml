@@ -1,0 +1,78 @@
+# fly.toml app configuration file generated for hyttekos
+
+app = "hyttekos"
+primary_region = "arn"  # Stockholm region for European users
+
+[build]
+
+# Mount persistent volume for SQLite database
+[mounts]
+  source = "hyttekos_data"
+  destination = "/data"
+  initial_size = "1gb"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/health"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+[env]
+  PORT = "8080"
+  GIN_MODE = "release"
+  DATABASE_PATH = "/data/hyttekos.db"
+
+# Secrets should be set via: fly secrets set KEY=value
+
+# Example secrets to set:
+# fly secrets set AKILES_CLIENT_ID=your_client_id
+# fly secrets set AKILES_CLIENT_SECRET=your_client_secret
+# fly secrets set AKILES_HEATING_GADGET_ID=your_heating_gadget_id
+# fly secrets set AKILES_HOTWATER_GADGET_ID=your_hotwater_gadget_id
+# fly secrets set TEMP_SENSOR_USERNAME=your_sensor_username
+# fly secrets set TEMP_SENSOR_PASSWORD=your_sensor_password
+# fly secrets set SESSION_SECRET=your_session_secret
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
+
+# Auto-scaling configuration
+[http_service.concurrency]
+  type = "connections"
+  hard_limit = 25
+  soft_limit = 20
+
+# Health checks
+[[services.http_checks]]
+  interval = "10s"
+  grace_period = "5s" 
+  method = "get"
+  path = "/health"
+  protocol = "http"
+  restart_limit = 0
+  timeout = "2s"

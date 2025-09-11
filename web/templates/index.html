@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}}</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="cabin-header">
+            <h1 class="cabin-title">🏔️ Hyttekos</h1>
+            <p class="cabin-subtitle">Hyttestyringssystem</p>
+            <div class="current-time" id="current-time">
+                <div class="date"></div>
+                <div class="time"></div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div id="dashboard" hx-get="/htmx/dashboard" hx-trigger="load" hx-swap="innerHTML">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Laster hyttestatus...</p>
+                </div>
+            </div>
+
+            <div class="status-bar">
+                <div class="connection-status">
+                    <span class="status-indicator online"></span>
+                    <span>Tilkoblet Akiles</span>
+                </div>
+                <div class="sensor-status">
+                    <span class="status-indicator online"></span>
+                    <span>Temperatursensor tilkoblet</span>
+                </div>
+                <div class="last-sync">
+                    <span id="last-sync-time">Sist synkronisert: Nå nettopp</span>
+                </div>
+            </div>
+        </main>
+
+        <footer class="cabin-footer">
+            <p>© 2023 Hyttekos - Fjernstyrning av hytta</p>
+            <button class="logout-btn" hx-post="/auth/logout" hx-confirm="Er du sikker på at du vil logge ut?">
+                Logg ut
+            </button>
+        </footer>
+    </div>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeEl = document.querySelector('.current-time .time');
+            const dateEl = document.querySelector('.current-time .date');
+            
+            if (timeEl && dateEl) {
+                timeEl.textContent = now.toLocaleTimeString('nb-NO', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                });
+                dateEl.textContent = now.toLocaleDateString('nb-NO', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                });
+            }
+        }
+        
+        // Update time immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Auto-refresh temperature every 30 seconds
+        setInterval(function() {
+            htmx.ajax('GET', '/htmx/temperature', {target: '.temperature-card'});
+            document.getElementById('last-sync-time').textContent = 
+                'Sist synkronisert: ' + new Date().toLocaleTimeString('nb-NO', {hour12: false});
+        }, 30000);
+    </script>
+</body>
+</html>

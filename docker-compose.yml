@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database for local development
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: hyttekos
+      POSTGRES_PASSWORD: hyttekos
+      POSTGRES_DB: hyttekos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hyttekos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Application container for local development
+  hyttekos:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=postgres://hyttekos:hyttekos@postgres:5432/hyttekos?sslmode=disable
+      - PORT=8080
+      - SESSION_SECRET=dev-session-secret-change-in-production
+      - OAUTH_REDIRECT_URL=http://localhost:8080/auth/callback
+      - AKILES_CLIENT_ID=${AKILES_CLIENT_ID:-your_client_id}
+      - AKILES_CLIENT_SECRET=${AKILES_CLIENT_SECRET:-your_client_secret}
+      - AKILES_ORGANIZATION_ID=${AKILES_ORGANIZATION_ID:-your_org_id}
+      - AKILES_HEATING_GADGET_ID=${AKILES_HEATING_GADGET_ID:-your_heating_id}
+      - AKILES_HOTWATER_GADGET_ID=${AKILES_HOTWATER_GADGET_ID:-your_hotwater_id}
+      - TEMP_SENSOR_USERNAME=${TEMP_SENSOR_USERNAME:-sensor}
+      - TEMP_SENSOR_PASSWORD=${TEMP_SENSOR_PASSWORD:-password}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./web:/app/web  # Mount web directory for live development
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

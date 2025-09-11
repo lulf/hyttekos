@@ -1,0 +1,34 @@
+<div class="control-card heating-control">
+    <div class="card-header">
+        <div class="fire-icon">
+            <div class="flame flame1"></div>
+            <div class="flame flame2"></div>
+            <div class="flame flame3"></div>
+        </div>
+        <div class="control-info">
+            <h3>Varmesystem</h3>
+            <div class="status-indicator {{if .heating.Enabled}}on{{else}}off{{end}}">
+                {{if .heating.Enabled}}PÅ{{else}}AV{{end}}
+            </div>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <button class="toggle-button {{if .heating.Enabled}}enabled{{else}}disabled{{end}}" 
+                hx-post="/htmx/heating/toggle" 
+                hx-target="#heating-card"
+                hx-swap="outerHTML"
+                hx-indicator="#heating-loading">
+            <span class="button-text">
+                {{if .heating.Enabled}}Slå av varme{{else}}Slå på varme{{end}}
+            </span>
+            <div id="heating-loading" class="htmx-indicator">
+                <div class="loading-spinner"></div>
+            </div>
+        </button>
+    </div>
+    
+    <div class="card-footer">
+        Sist endret: {{.heating.LastUpdated.Format "Mon 15:04"}}
+    </div>
+</div>

@@ -1,0 +1,190 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with cabin-like feel -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d1810;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0e08;stop-opacity:1" />
+    </linearGradient>
+    <filter id="cardShadow">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <pattern id="woodGrain" patternUnits="userSpaceOnUse" width="60" height="8">
+      <rect width="60" height="8" fill="#8B4513"/>
+      <path d="M0,3 Q15,1 30,3 Q45,5 60,3" stroke="#654321" stroke-width="0.5" fill="none"/>
+      <path d="M0,6 Q15,4 30,6 Q45,8 60,6" stroke="#A0522D" stroke-width="0.3" fill="none"/>
+    </pattern>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="800" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Header with wood pattern -->
+  <rect x="0" y="0" width="800" height="80" fill="url(#woodGrain)" opacity="0.8"/>
+  <rect x="0" y="80" width="800" height="3" fill="#654321"/>
+  
+  <!-- App Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#FFE4B5" font-family="serif" font-size="28" font-weight="bold">
+    🏔️ Hyttekos
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#DEB887" font-family="serif" font-size="14">
+    Cabin Control System
+  </text>
+  
+  <!-- Current Time Display -->
+  <rect x="650" y="15" width="130" height="50" rx="10" fill="#3E2723" stroke="#8D6E63" stroke-width="1"/>
+  <text x="715" y="33" text-anchor="middle" fill="#FFE4B5" font-family="monospace" font-size="12">
+    2023-12-07
+  </text>
+  <text x="715" y="48" text-anchor="middle" fill="#FFE4B5" font-family="monospace" font-size="16" font-weight="bold">
+    14:35
+  </text>
+  
+  <!-- Main Content Area -->
+  <g transform="translate(50, 110)">
+    
+    <!-- Temperature Display Card -->
+    <g>
+      <rect x="0" y="0" width="700" height="120" rx="15" fill="#4A2C2A" filter="url(#cardShadow)" stroke="#8D6E63" stroke-width="2"/>
+      <rect x="10" y="10" width="680" height="100" rx="10" fill="#5D4037" opacity="0.3"/>
+      
+      <!-- Thermometer icon -->
+      <circle cx="80" cy="60" r="35" fill="#FF6B35" opacity="0.2"/>
+      <rect x="75" y="30" width="10" height="40" fill="#FF6B35" rx="2"/>
+      <circle cx="80" cy="75" r="8" fill="#FF6B35"/>
+      <text x="80" y="80" text-anchor="middle" fill="white" font-size="6">°</text>
+      
+      <!-- Temperature reading -->
+      <text x="150" y="45" fill="#FFE4B5" font-family="sans-serif" font-size="16" font-weight="bold">
+        Current Temperature
+      </text>
+      <text x="150" y="85" fill="#FF8A65" font-family="monospace" font-size="48" font-weight="bold">
+        18.5°C
+      </text>
+      
+      <!-- Last updated time -->
+      <text x="600" y="95" fill="#BCAAA4" font-family="sans-serif" font-size="12">
+        Updated: 14:34
+      </text>
+    </g>
+    
+    <!-- Control Cards Container -->
+    <g transform="translate(0, 150)">
+      
+      <!-- Heating Control Card -->
+      <g>
+        <rect x="0" y="0" width="330" height="180" rx="15" fill="#4A2C2A" filter="url(#cardShadow)" stroke="#8D6E63" stroke-width="2"/>
+        <rect x="10" y="10" width="310" height="160" rx="10" fill="#5D4037" opacity="0.2"/>
+        
+        <!-- Fire icon for heating -->
+        <g transform="translate(60, 40)">
+          <path d="M20 40 Q10 25 15 10 Q20 5 25 10 Q35 15 30 25 Q40 30 35 40 Q30 45 20 40" fill="#FF5722"/>
+          <path d="M20 35 Q15 25 18 15 Q22 12 25 15 Q30 18 28 25 Q32 28 30 35 Q27 38 20 35" fill="#FF8A50"/>
+          <circle cx="23" cy="32" r="2" fill="#FFB74D"/>
+        </g>
+        
+        <text x="120" y="45" fill="#FFE4B5" font-family="sans-serif" font-size="20" font-weight="bold">
+          Heating System
+        </text>
+        
+        <!-- Status indicator -->
+        <circle cx="280" cy="45" r="8" fill="#4CAF50"/>
+        <text x="255" y="50" fill="#C8E6C9" font-family="sans-serif" font-size="12" font-weight="bold">
+          ON
+        </text>
+        
+        <!-- Toggle button -->
+        <rect x="40" y="110" width="250" height="40" rx="20" fill="#FF5722" stroke="#FF8A50" stroke-width="2" opacity="0.9"/>
+        <text x="165" y="135" text-anchor="middle" fill="white" font-family="sans-serif" font-size="16" font-weight="bold">
+          Turn Off Heating
+        </text>
+        
+        <!-- Last action time -->
+        <text x="40" y="170" fill="#BCAAA4" font-family="sans-serif" font-size="10">
+          Last changed: Today 12:30
+        </text>
+      </g>
+      
+      <!-- Hot Water Control Card -->
+      <g transform="translate(370, 0)">
+        <rect x="0" y="0" width="330" height="180" rx="15" fill="#4A2C2A" filter="url(#cardShadow)" stroke="#8D6E63" stroke-width="2"/>
+        <rect x="10" y="10" width="310" height="160" rx="10" fill="#5D4037" opacity="0.2"/>
+        
+        <!-- Water drop icon -->
+        <g transform="translate(60, 40)">
+          <path d="M20 10 Q10 25 10 35 Q10 45 20 45 Q30 45 30 35 Q30 25 20 10" fill="#2196F3"/>
+          <path d="M20 15 Q15 25 15 32 Q15 38 20 38 Q25 38 25 32 Q25 25 20 15" fill="#64B5F6"/>
+          <ellipse cx="18" cy="28" rx="2" ry="3" fill="#BBDEFB"/>
+        </g>
+        
+        <text x="120" y="45" fill="#FFE4B5" font-family="sans-serif" font-size="20" font-weight="bold">
+          Hot Water System
+        </text>
+        
+        <!-- Status indicator -->
+        <circle cx="280" cy="45" r="8" fill="#9E9E9E"/>
+        <text x="255" y="50" fill="#E0E0E0" font-family="sans-serif" font-size="12" font-weight="bold">
+          OFF
+        </text>
+        
+        <!-- Toggle button -->
+        <rect x="40" y="110" width="250" height="40" rx="20" fill="#757575" stroke="#9E9E9E" stroke-width="2" opacity="0.7"/>
+        <text x="165" y="135" text-anchor="middle" fill="white" font-family="sans-serif" font-size="16" font-weight="bold">
+          Turn On Hot Water
+        </text>
+        
+        <!-- Last action time -->
+        <text x="40" y="170" fill="#BCAAA4" font-family="sans-serif" font-size="10">
+          Last changed: Yesterday 18:45
+        </text>
+      </g>
+    </g>
+    
+    <!-- Status Bar -->
+    <g transform="translate(0, 360)">
+      <rect x="0" y="0" width="700" height="50" rx="10" fill="#3E2723" stroke="#6D4C41" stroke-width="1"/>
+      
+      <!-- Connection status -->
+      <circle cx="30" cy="25" r="6" fill="#4CAF50"/>
+      <text x="45" y="30" fill="#FFE4B5" font-family="sans-serif" font-size="12">
+        Connected to Akiles
+      </text>
+      
+      <!-- Temperature sensor status -->
+      <circle cx="220" cy="25" r="6" fill="#4CAF50"/>
+      <text x="235" y="30" fill="#FFE4B5" font-family="sans-serif" font-size="12">
+        Temperature Sensor Online
+      </text>
+      
+      <!-- Last sync -->
+      <text x="500" y="30" fill="#BCAAA4" font-family="sans-serif" font-size="12">
+        Last sync: 14:35:23
+      </text>
+    </g>
+  </g>
+  
+  <!-- Footer -->
+  <rect x="0" y="550" width="800" height="50" fill="url(#woodGrain)" opacity="0.6"/>
+  <text x="400" y="575" text-anchor="middle" fill="#8D6E63" font-family="serif" font-size="12">
+    © 2023 Hyttekos - Remote Cabin Management
+  </text>
+  
+  <!-- Mobile-style loading indicator (hidden by default) -->
+  <g id="loadingSpinner" opacity="0">
+    <rect x="350" y="250" width="100" height="60" rx="10" fill="#3E2723" stroke="#8D6E63" stroke-width="2"/>
+    <circle cx="375" cy="280" r="8" fill="none" stroke="#FF8A50" stroke-width="2" stroke-dasharray="20 5">
+      <animateTransform attributeName="transform" type="rotate" values="0 375 280;360 375 280" dur="1s" repeatCount="indefinite"/>
+    </circle>
+    <text x="400" y="285" fill="#FFE4B5" font-family="sans-serif" font-size="12">
+      Updating...
+    </text>
+  </g>
+  
+  <!-- Notification area (for success/error messages) -->
+  <g id="notifications" transform="translate(600, 100)" opacity="0">
+    <rect x="0" y="0" width="180" height="40" rx="8" fill="#2E7D32" stroke="#4CAF50" stroke-width="2"/>
+    <text x="90" y="25" text-anchor="middle" fill="white" font-family="sans-serif" font-size="12">
+      ✓ Heating turned on
+    </text>
+  </g>
+  
+</svg>

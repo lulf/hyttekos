@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}}</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="cabin-logo">
+                <h1>🏔️ Hyttekos</h1>
+                <p>Hyttestyringssystem</p>
+            </div>
+            
+            <div class="login-content">
+                <h2>Velkommen tilbake</h2>
+                <p>Logg inn for å få tilgang til hyttestyringen</p>
+                
+                <a href="/auth/login" class="login-button">
+                    <svg class="login-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2L9 1L1 9L9 17L10 16L3 9H19V7H3L10 2Z"/>
+                    </svg>
+                    Logg inn med Akiles
+                </a>
+            </div>
+            
+            <div class="cabin-features">
+                <div class="feature">
+                    <span class="feature-icon">🔥</span>
+                    <span>Varmestyring</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">💧</span>
+                    <span>Varmtvannsstyring</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🌡️</span>
+                    <span>Temperaturovervåking</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #2d1810 0%, #1a0e08 100%);
+        padding: 20px;
+    }
+
+    .login-card {
+        background: rgba(74, 44, 42, 0.95);
+        border: 2px solid #8D6E63;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+    }
+
+    .cabin-logo h1 {
+        color: #FFE4B5;
+        font-size: 2.5rem;
+        margin: 0 0 10px 0;
+        font-family: serif;
+    }
+
+    .cabin-logo p {
+        color: #DEB887;
+        margin: 0 0 30px 0;
+        font-size: 1rem;
+    }
+
+    .login-content h2 {
+        color: #FFE4B5;
+        margin: 0 0 10px 0;
+        font-size: 1.5rem;
+    }
+
+    .login-content p {
+        color: #BCAAA4;
+        margin: 0 0 30px 0;
+    }
+
+    .login-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: #FF5722;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        border: 2px solid #FF8A50;
+        font-size: 1.1rem;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .login-button:hover {
+        background: #FF8A50;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
+    }
+
+    .login-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .cabin-features {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #6D4C41;
+    }
+
+    .feature {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 10px 0;
+        color: #BCAAA4;
+        font-size: 0.9rem;
+    }
+
+    .feature-icon {
+        font-size: 1.2rem;
+    }
+    </style>
+</body>
+</html>
