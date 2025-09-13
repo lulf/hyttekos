@@ -108,14 +108,12 @@ func (s *Server) setupRoutes() {
 		api.GET("/temperature/history", apiHandler.GetTemperatureHistory)
 	}
 
-	// HTMX routes (HTML fragments)
-	htmx := s.engine.Group("/htmx")
-	htmx.Use(middleware.RequireAuth(s.sessionStore, s.sessionRepo))
+	// Form toggle routes
+	toggle := s.engine.Group("/toggle")
+	toggle.Use(middleware.RequireAuth(s.sessionStore, s.sessionRepo))
 	{
-		htmx.GET("/dashboard", webHandler.Dashboard)
-		htmx.POST("/heating/toggle", webHandler.ToggleHeating)
-		htmx.POST("/hot-water/toggle", webHandler.ToggleHotWater)
-		htmx.GET("/temperature", webHandler.TemperatureFragment)
+		toggle.POST("/heating", webHandler.ToggleHeating)
+		toggle.POST("/hot-water", webHandler.ToggleHotWater)
 	}
 
 	// Temperature sensor endpoint (no auth required)

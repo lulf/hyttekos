@@ -31,10 +31,39 @@ func NewWebHandler(client *akiles.Client, tempRepo *repository.TemperatureReposi
 	}
 }
 
-// Index serves the main dashboard page
+// Index serves the main dashboard page with all data
 func (h *WebHandler) Index(c *gin.Context) {
+	accessToken, exists := c.Get("access_token")
+	if !exists {
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
+			"error": "Autentiseringstoken ikke funnet",
+		})
+		return
+	}
+
+	token := &oauth2.Token{
+		AccessToken: accessToken.(string),
+		TokenType:   "Bearer",
+	}
+
+	// Get system status
+	status, err := h.getSystemStatus(c, token)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
+			"error": fmt.Sprintf("Failed to get system status: %v", err),
+		})
+		return
+	}
+
+	// Format last updated time
+	lastUpdated := time.Now().Format("15:04")
+
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title": "Hyttekos - Hyttestyring",
+		"title":       "Hyttekos - Hyttestyring",
+		"heating":     status.Heating,
+		"hotWater":    status.HotWater,
+		"temperature": status.Temperature,
+		"lastUpdated": lastUpdated,
 	})
 }
 
@@ -45,42 +74,6 @@ func (h *WebHandler) LoginPage(c *gin.Context) {
 	})
 }
 
-// Dashboard returns the main dashboard HTML fragment
-func (h *WebHandler) Dashboard(c *gin.Context) {
-	log.Printf("Dashboard: Starting dashboard request")
-	accessToken, exists := c.Get("access_token")
-	if !exists {
-		log.Printf("Dashboard: Authentication token not found")
-		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
-			"error": "Autentiseringstoken ikke funnet",
-		})
-		return
-	}
-	log.Printf("Dashboard: Access token found, creating OAuth2 token")
-
-	token := &oauth2.Token{
-		AccessToken: accessToken.(string),
-		TokenType:   "Bearer",
-	}
-
-	// Get system status
-	log.Printf("Dashboard: Calling getSystemStatus")
-	status, err := h.getSystemStatus(c, token)
-	if err != nil {
-		log.Printf("Dashboard: Error getting system status: %v", err)
-		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
-			"error": fmt.Sprintf("Failed to get system status: %v", err),
-		})
-		return
-	}
-	log.Printf("Dashboard: System status retrieved successfully")
-
-	c.HTML(http.StatusOK, "dashboard.html", gin.H{
-		"heating":     status.Heating,
-		"hotWater":    status.HotWater,
-		"temperature": status.Temperature,
-	})
-}
 
 // ToggleHeating handles heating system toggle requests
 func (h *WebHandler) ToggleHeating(c *gin.Context) {
@@ -93,7 +86,7 @@ func (h *WebHandler) ToggleHeating(c *gin.Context) {
 	// Get current state
 	heatingState, err := h.akilesClient.GetHeatingState(c.Request.Context(), token)
 	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
 			"error": fmt.Sprintf("Failed to get heating status: %v", err),
 		})
 		return
@@ -103,28 +96,14 @@ func (h *WebHandler) ToggleHeating(c *gin.Context) {
 	newEnabled := heatingState.StateID != "closed"
 	_, err = h.akilesClient.SetHeating(c.Request.Context(), token, newEnabled)
 	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
 			"error": fmt.Sprintf("Failed to control heating: %v", err),
 		})
 		return
 	}
 
-	// Get updated state
-	updatedState, err := h.akilesClient.GetHeatingState(c.Request.Context(), token)
-	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
-			"error": fmt.Sprintf("Failed to get updated heating status: %v", err),
-		})
-		return
-	}
-
-	heating := models.GadgetStatus{
-		Enabled: updatedState.StateID != "closed",
-	}
-
-	c.HTML(http.StatusOK, "heating-card.html", gin.H{
-		"heating": heating,
-	})
+	// Redirect back to main page
+	c.Redirect(http.StatusSeeOther, "/")
 }
 
 // ToggleHotWater handles hot water system toggle requests
@@ -138,7 +117,7 @@ func (h *WebHandler) ToggleHotWater(c *gin.Context) {
 	// Get current state
 	hotWaterState, err := h.akilesClient.GetHotWaterState(c.Request.Context(), token)
 	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
 			"error": fmt.Sprintf("Failed to get hot water status: %v", err),
 		})
 		return
@@ -148,54 +127,16 @@ func (h *WebHandler) ToggleHotWater(c *gin.Context) {
 	newEnabled := hotWaterState.StateID != "closed"
 	_, err = h.akilesClient.SetHotWater(c.Request.Context(), token, newEnabled)
 	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
 			"error": fmt.Sprintf("Failed to control hot water: %v", err),
 		})
 		return
 	}
 
-	// Get updated state
-	updatedState, err := h.akilesClient.GetHotWaterState(c.Request.Context(), token)
-	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
-			"error": fmt.Sprintf("Failed to get updated hot water status: %v", err),
-		})
-		return
-	}
-
-	hotWater := models.GadgetStatus{
-		Enabled: updatedState.StateID != "closed",
-	}
-
-	c.HTML(http.StatusOK, "hot-water-card.html", gin.H{
-		"hotWater": hotWater,
-	})
+	// Redirect back to main page
+	c.Redirect(http.StatusSeeOther, "/")
 }
 
-// TemperatureFragment returns the temperature display fragment
-func (h *WebHandler) TemperatureFragment(c *gin.Context) {
-	latestTemp, err := h.tempRepo.GetLatest()
-	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
-			"error": fmt.Sprintf("Failed to get temperature: %v", err),
-		})
-		return
-	}
-
-	var temperature models.TemperatureReading
-	if latestTemp != nil {
-		temperature = *latestTemp
-	} else {
-		temperature = models.TemperatureReading{
-			Temperature: 0,
-			Timestamp:   time.Now(),
-		}
-	}
-
-	c.HTML(http.StatusOK, "temperature-display.html", gin.H{
-		"temperature": temperature,
-	})
-}
 
 func (h *WebHandler) getSystemStatus(c *gin.Context, token *oauth2.Token) (*models.SystemStatus, error) {
 	// Get heating status

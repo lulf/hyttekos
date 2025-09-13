@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.title}}</title>
-    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
@@ -14,53 +13,100 @@
         </header>
 
         <main class="main-content">
-            <div id="dashboard" hx-get="/htmx/dashboard" hx-trigger="load" hx-swap="innerHTML">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Laster hyttestatus...</p>
+            <!-- Temperature Display -->
+            <div class="temperature-card">
+                <div class="temperature-card">
+                    <div class="card-header">
+                        <div class="thermometer-icon">
+                            <div class="thermometer-bulb"></div>
+                            <div class="thermometer-tube"></div>
+                            <div class="degree-symbol">°</div>
+                        </div>
+                        <div class="temperature-info">
+                            <div class="temperature-reading">
+                                {{if .temperature}}
+                                    {{printf "%.1f" .temperature.Temperature}}°C
+                                {{else}}
+                                    --°C
+                                {{end}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Cards -->
+            <div class="control-cards">
+                <!-- Heating Card -->
+                <div class="heating-card">
+                    <div class="control-card heating-control">
+                        <div class="card-header">
+                            <div class="fire-icon">
+                                <div class="flame flame1"></div>
+                                <div class="flame flame2"></div>
+                                <div class="flame flame3"></div>
+                            </div>
+                            <div class="control-info">
+                                <h3>Gulvvarme</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <span class="toggle-label">{{if .heating.Enabled}}På{{else}}Av{{end}}</span>
+                            <form method="POST" action="/toggle/heating" style="display: inline;">
+                                <button type="submit" class="toggle-switch {{if .heating.Enabled}}enabled{{else}}disabled{{end}}">
+                                    <span class="sr-only">Toggle heating</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hot Water Card -->
+                <div class="hot-water-card">
+                    <div class="control-card hot-water-control">
+                        <div class="card-header">
+                            <div class="water-icon">
+                                <div class="water-drop">
+                                    <div class="water-shine"></div>
+                                </div>
+                            </div>
+                            <div class="control-info">
+                                <h3>Varmtvann</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <span class="toggle-label">{{if .hotWater.Enabled}}På{{else}}Av{{end}}</span>
+                            <form method="POST" action="/toggle/hot-water" style="display: inline;">
+                                <button type="submit" class="toggle-switch {{if .hotWater.Enabled}}enabled{{else}}disabled{{end}}">
+                                    <span class="sr-only">Toggle hot water</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="status-bar">
                 <div class="connection-status">
                     <span class="status-indicator online"></span>
-                    <span>Tilkoblet Akiles</span>
-                </div>
-                <div class="sensor-status">
-                    <span class="status-indicator online"></span>
-                    <span>Temperatursensor tilkoblet</span>
+                    <span>Tilkoblet</span>
                 </div>
                 <div class="last-sync">
-                    <span id="last-sync-time">Sist oppdatert: Nå nettopp</span>
+                    <span>Sist oppdatert: {{.lastUpdated}}</span>
                 </div>
             </div>
         </main>
 
         <footer class="cabin-footer">
-            <p>© 2023 Hyttekos - Fjernstyrning av hytta</p>
-            <button class="logout-btn" hx-post="/auth/logout" hx-confirm="Er du sikker på at du vil logge ut?">
-                Logg ut
-            </button>
+            <p>© 2025 Hyttekos - Fjernstyring av hytta</p>
+            <form method="POST" action="/auth/logout" style="display: inline;">
+                <button type="submit" class="logout-btn" onclick="return confirm('Er du sikker på at du vil logge ut?')">
+                    Logg ut
+                </button>
+            </form>
         </footer>
     </div>
-
-    <script>
-        // Auto-refresh temperature every 30 seconds
-        setInterval(function() {
-            htmx.ajax('GET', '/htmx/temperature', {target: '.temperature-card'});
-            const now = new Date();
-            document.getElementById('last-sync-time').textContent = 
-                'Sist oppdatert: ' + now.toLocaleString('nb-NO', {hour12: false});
-        }, 30000);
-        
-        // Set initial timestamp
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            const syncEl = document.getElementById('last-sync-time');
-            if (syncEl) {
-                syncEl.textContent = 'Sist oppdatert: ' + now.toLocaleString('nb-NO', {hour12: false});
-            }
-        });
-    </script>
 </body>
 </html>

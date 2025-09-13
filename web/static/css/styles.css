@@ -436,17 +436,6 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-.htmx-indicator {
-    display: none;
-}
-
-.htmx-request .htmx-indicator {
-    display: inline-block;
-}
-
-.htmx-request .button-text {
-    display: none;
-}
 
 /* Error States */
 .error-container {
@@ -495,6 +484,19 @@ body {
 .retry-button:hover {
     background: #FF8A50;
     transform: translateY(-1px);
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* Responsive Design */
