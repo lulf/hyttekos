@@ -100,7 +100,7 @@ func (h *WebHandler) ToggleHeating(c *gin.Context) {
 	}
 
 	// Toggle the state
-	newEnabled := heatingState.StateID == "closed"
+	newEnabled := heatingState.StateID != "closed"
 	_, err = h.akilesClient.SetHeating(c.Request.Context(), token, newEnabled)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
@@ -145,7 +145,7 @@ func (h *WebHandler) ToggleHotWater(c *gin.Context) {
 	}
 
 	// Toggle the state
-	newEnabled := hotWaterState.StateID == "closed"
+	newEnabled := hotWaterState.StateID != "closed"
 	_, err = h.akilesClient.SetHotWater(c.Request.Context(), token, newEnabled)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{

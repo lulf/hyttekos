@@ -12,7 +12,6 @@
         <div class="login-card">
             <div class="cabin-logo">
                 <h1>🏔️ Hyttekos</h1>
-                <p>Hyttestyringssystem</p>
             </div>
             
             <div class="login-content">
@@ -21,7 +20,7 @@
                 
                 <a href="/auth/login" class="login-button">
                     <svg class="login-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10 2L9 1L1 9L9 17L10 16L3 9H19V7H3L10 2Z"/>
+                        <path d="M3 3h14a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V5a2 2 0 012-2zm0 2v10h14V5H3zm2 3h8v1H5V8zm0 2h6v1H5v-1z"/>
                     </svg>
                     Logg inn med Akiles
                 </a>
@@ -29,65 +28,80 @@
             
             <div class="cabin-features">
                 <div class="feature">
-                    <span class="feature-icon">🔥</span>
-                    <span>Varmestyring</span>
+                    <div class="feature-icon heating-icon">
+                        <div class="feature-flame feature-flame1"></div>
+                        <div class="feature-flame feature-flame2"></div>
+                        <div class="feature-flame feature-flame3"></div>
+                    </div>
+                    <span>Gulvvarme</span>
                 </div>
                 <div class="feature">
-                    <span class="feature-icon">💧</span>
-                    <span>Varmtvannsstyring</span>
+                    <div class="feature-icon water-icon">
+                        <div class="feature-water-drop">
+                            <div class="feature-water-shine"></div>
+                        </div>
+                    </div>
+                    <span>Varmtvann</span>
                 </div>
                 <div class="feature">
-                    <span class="feature-icon">🌡️</span>
-                    <span>Temperaturovervåking</span>
+                    <div class="feature-icon temp-icon">
+                        <div class="feature-temp-bulb"></div>
+                        <div class="feature-temp-tube"></div>
+                        <div class="feature-degree">°</div>
+                    </div>
+                    <span>Temperatur</span>
                 </div>
             </div>
         </div>
     </div>
 
     <style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        margin: 0;
+        padding: 0;
+    }
+
     .login-container {
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #2d1810 0%, #1a0e08 100%);
         padding: 20px;
     }
 
     .login-card {
-        background: rgba(74, 44, 42, 0.95);
-        border: 2px solid #8D6E63;
-        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 25px;
         padding: 40px;
         max-width: 400px;
         width: 100%;
         text-align: center;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
     }
 
     .cabin-logo h1 {
-        color: #FFE4B5;
-        font-size: 2.5rem;
-        margin: 0 0 10px 0;
-        font-family: serif;
-    }
-
-    .cabin-logo p {
-        color: #DEB887;
+        color: #2c3e50;
+        font-size: 2.8rem;
         margin: 0 0 30px 0;
-        font-size: 1rem;
+        font-weight: 700;
     }
 
     .login-content h2 {
-        color: #FFE4B5;
+        color: #2c3e50;
         margin: 0 0 10px 0;
         font-size: 1.5rem;
+        font-weight: 600;
     }
 
     .login-content p {
-        color: #BCAAA4;
+        color: #7f8c8d;
         margin: 0 0 30px 0;
+        font-size: 1rem;
     }
 
     .login-button {
@@ -95,23 +109,23 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-        background: #FF5722;
+        background: #ff7f32;
         color: white;
         padding: 15px 30px;
-        border-radius: 50px;
+        border-radius: 25px;
         text-decoration: none;
-        font-weight: bold;
+        font-weight: 600;
         transition: all 0.3s ease;
-        border: 2px solid #FF8A50;
         font-size: 1.1rem;
         width: 100%;
         max-width: 280px;
+        box-shadow: 0 4px 15px rgba(255, 127, 50, 0.3);
     }
 
     .login-button:hover {
-        background: #FF8A50;
+        background: #e85a00;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
+        box-shadow: 0 6px 20px rgba(255, 127, 50, 0.4);
     }
 
     .login-icon {
@@ -120,23 +134,169 @@
     }
 
     .cabin-features {
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid #6D4C41;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid #e8e8e8;
+        display: flex;
+        justify-content: space-around;
+        gap: 15px;
     }
 
     .feature {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin: 10px 0;
-        color: #BCAAA4;
+        gap: 8px;
+        color: #2c3e50;
         font-size: 0.9rem;
+        font-weight: 500;
     }
 
     .feature-icon {
-        font-size: 1.2rem;
+        width: 40px;
+        height: 40px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    /* Heating Icon */
+    .heating-icon {
+        background: linear-gradient(135deg, #ff7f32, #e85a00);
+        box-shadow: 0 3px 10px rgba(255, 127, 50, 0.3);
+    }
+
+    .feature-flame {
+        position: absolute;
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        animation: featureFlicker 1.5s ease-in-out infinite alternate;
+    }
+
+    .feature-flame1 {
+        width: 12px;
+        height: 18px;
+        background: white;
+        left: 14px;
+        animation-delay: 0s;
+    }
+
+    .feature-flame2 {
+        width: 8px;
+        height: 14px;
+        background: rgba(255, 255, 255, 0.8);
+        left: 16px;
+        top: 2px;
+        animation-delay: 0.3s;
+    }
+
+    .feature-flame3 {
+        width: 4px;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.6);
+        left: 18px;
+        top: 5px;
+        animation-delay: 0.6s;
+    }
+
+    @keyframes featureFlicker {
+        0% { transform: scale(1) rotate(-1deg); }
+        100% { transform: scale(1.05) rotate(1deg); }
+    }
+
+    /* Water Icon */
+    .water-icon {
+        background: linear-gradient(135deg, #7fa68a, #5a7c65);
+        box-shadow: 0 3px 10px rgba(127, 166, 138, 0.3);
+    }
+
+    .feature-water-drop {
+        width: 12px;
+        height: 18px;
+        background: white;
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        position: relative;
+        animation: featureWaterDrop 2s ease-in-out infinite;
+    }
+
+    .feature-water-shine {
+        width: 3px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 3px;
+    }
+
+    @keyframes featureWaterDrop {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    /* Temperature Icon */
+    .temp-icon {
+        background: linear-gradient(135deg, #7fa68a, #5a7c65);
+        box-shadow: 0 3px 10px rgba(127, 166, 138, 0.3);
+    }
+
+    .feature-temp-bulb {
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 8px;
+        z-index: 2;
+        animation: featureTempPulse 2s ease-in-out infinite;
+    }
+
+    .feature-temp-tube {
+        width: 4px;
+        height: 18px;
+        background: white;
+        border-radius: 2px 2px 0 0;
+        position: absolute;
+        top: 6px;
+        opacity: 0.9;
+    }
+
+    .feature-degree {
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        color: white;
+        font-size: 0.5rem;
+        font-weight: bold;
+    }
+
+    @keyframes featureTempPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+        .login-card {
+            padding: 30px 20px;
+            margin: 10px;
+        }
+
+        .cabin-logo h1 {
+            font-size: 2.2rem;
+        }
+
+        .cabin-features {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feature {
+            flex-direction: row;
+            justify-content: center;
+            gap: 15px;
+        }
     }
     </style>
 </body>
