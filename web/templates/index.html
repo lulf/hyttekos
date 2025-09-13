@@ -95,7 +95,7 @@
                     <span>Tilkoblet</span>
                 </div>
                 <div class="last-sync">
-                    <span>Sist oppdatert: {{.lastUpdated}}</span>
+                    <span>Sist oppdatert: <span id="lastUpdated">{{.lastUpdated}}</span></span>
                 </div>
             </div>
         </main>
@@ -130,6 +130,13 @@
         // Let the form submit normally
         return true;
     }
+    
+    // Format timestamp based on browser locale
+    document.addEventListener('DOMContentLoaded', function() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        document.getElementById('lastUpdated').textContent = timeString;
+    });
     </script>
 </body>
 </html>
