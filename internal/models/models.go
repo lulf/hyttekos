@@ -24,8 +24,7 @@ type Session struct {
 
 // GadgetStatus represents the status of a gadget (heating/hot water)
 type GadgetStatus struct {
-	Enabled     bool      `json:"enabled"`
-	LastUpdated time.Time `json:"last_updated"`
+	Enabled bool `json:"enabled"`
 }
 
 // SystemStatus represents the overall status of all cabin systems
@@ -42,11 +41,11 @@ type GadgetAction struct {
 
 // GadgetActionResponse represents the response after performing a gadget action
 type GadgetActionResponse struct {
-	Success   bool         `json:"success"`
-	Heating   *GadgetStatus `json:"heating,omitempty"`
-	HotWater  *GadgetStatus `json:"hot_water,omitempty"`
-	Error     string       `json:"error,omitempty"`
-	Message   string       `json:"message,omitempty"`
+	Success  bool          `json:"success"`
+	Heating  *GadgetStatus `json:"heating,omitempty"`
+	HotWater *GadgetStatus `json:"hot_water,omitempty"`
+	Error    string        `json:"error,omitempty"`
+	Message  string        `json:"message,omitempty"`
 }
 
 // TemperatureSubmission represents temperature data submitted by sensors

@@ -33,30 +33,39 @@ func NewAuthHandler(client *akiles.Client, store sessions.Store, sessionRepo *re
 
 // Login initiates the OAuth2 flow
 func (h *AuthHandler) Login(c *gin.Context) {
+	fmt.Printf("Login: Starting OAuth2 login flow\n")
+	
 	// Generate a random state for CSRF protection
 	state := generateRandomState()
+	fmt.Printf("Login: Generated state: %s\n", state)
 	
 	// Store state in session
-	session, err := h.sessionStore.Get(c.Request, middleware.SessionName)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error":   "session_error",
-			"message": "Failed to create session",
-		})
-		return
-	}
+	fmt.Printf("Login: Getting session with name: %s\n", middleware.SessionName)
+	
+	// Since sessionStore.Get() is failing even with clean requests, but session creation works,
+	// let's directly create a new session and bypass the problematic Get() method
+	fmt.Printf("Login: Creating new session directly to bypass corrupted cookie issues\n")
+	session := sessions.NewSession(h.sessionStore, middleware.SessionName)
+	session.IsNew = true // Mark as new so it gets a fresh ID
+	fmt.Printf("Login: Successfully created fresh session, bypassing Get() method\n")
 	
 	session.Values["oauth_state"] = state
+	fmt.Printf("Login: State stored in session, attempting to save\n")
 	if err := session.Save(c.Request, c.Writer); err != nil {
+		fmt.Printf("Login: Failed to save session: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "session_error",
-			"message": "Failed to save session",
+			"message": fmt.Sprintf("Failed to save session: %v", err),
 		})
 		return
 	}
+	fmt.Printf("Login: Session saved successfully\n")
 
 	// Redirect to OAuth provider
+	fmt.Printf("Login: Getting auth URL with redirectURL: %s\n", h.redirectURL)
 	authURL := h.akilesClient.GetAuthURL(state, h.redirectURL)
+	fmt.Printf("Login: Generated auth URL: %s\n", authURL)
+	fmt.Printf("Login: Redirecting to OAuth provider\n")
 	c.Redirect(http.StatusFound, authURL)
 }
 
@@ -76,9 +85,10 @@ func (h *AuthHandler) Callback(c *gin.Context) {
 	// Validate state parameter
 	session, err := h.sessionStore.Get(c.Request, middleware.SessionName)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+		fmt.Printf("Callback: Failed to get session (likely corrupted cookie): %v\n", err)
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "session_error",
-			"message": "Failed to get session",
+			"message": "Invalid session - please restart login process",
 		})
 		return
 	}
@@ -173,7 +183,15 @@ func (h *AuthHandler) Logout(c *gin.Context) {
 }
 
 func generateRandomState() string {
+	fmt.Printf("generateRandomState: Starting random state generation\n")
 	bytes := make([]byte, 32)
-	rand.Read(bytes)
-	return hex.EncodeToString(bytes)
+	n, err := rand.Read(bytes)
+	if err != nil {
+		fmt.Printf("generateRandomState: Error reading random bytes: %v\n", err)
+	} else {
+		fmt.Printf("generateRandomState: Successfully read %d random bytes\n", n)
+	}
+	state := hex.EncodeToString(bytes)
+	fmt.Printf("generateRandomState: Generated state length: %d\n", len(state))
+	return state
 }

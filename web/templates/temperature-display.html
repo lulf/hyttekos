@@ -1,26 +1,20 @@
-<div class="temperature-card">
-    <div class="card-header">
-        <div class="thermometer-icon">
-            <div class="thermometer-bulb"></div>
-            <div class="thermometer-tube"></div>
-            <div class="degree-symbol">°</div>
-        </div>
-        <div class="temperature-info">
-            <h3>Gjeldende temperatur</h3>
-            <div class="temperature-reading">
-                {{if .temperature}}
-                    {{printf "%.1f" .temperature.Temperature}}°C
-                {{else}}
-                    --°C
-                {{end}}
+<div class="temperature-card" hx-get="/htmx/temperature" hx-trigger="every 30s" hx-swap="outerHTML">
+    <div class="temperature-card">
+        <div class="card-header">
+            <div class="thermometer-icon">
+                <div class="thermometer-bulb"></div>
+                <div class="thermometer-tube"></div>
+                <div class="degree-symbol">°</div>
+            </div>
+            <div class="temperature-info">
+                <div class="temperature-reading">
+                    {{if .temperature}}
+                        {{printf "%.1f" .temperature.Temperature}}°C
+                    {{else}}
+                        --°C
+                    {{end}}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="card-footer">
-        {{if .temperature}}
-            Oppdatert: {{.temperature.Timestamp.Format "15:04"}}
-        {{else}}
-            Ingen data tilgjengelig
-        {{end}}
     </div>
 </div>

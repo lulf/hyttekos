@@ -76,12 +76,10 @@ func (h *APIHandler) GetStatus(c *gin.Context) {
 
 	status := models.SystemStatus{
 		Heating: models.GadgetStatus{
-			Enabled:     heatingState.State == "open",
-			LastUpdated: heatingState.UpdatedAt,
+			Enabled: heatingState.StateID != "closed",
 		},
 		HotWater: models.GadgetStatus{
-			Enabled:     hotWaterState.State == "open",
-			LastUpdated: hotWaterState.UpdatedAt,
+			Enabled: hotWaterState.StateID != "closed",
 		},
 	}
 
@@ -139,8 +137,7 @@ func (h *APIHandler) SetHeating(c *gin.Context) {
 	response := models.GadgetActionResponse{
 		Success: true,
 		Heating: &models.GadgetStatus{
-			Enabled:     heatingState.State == "open",
-			LastUpdated: heatingState.UpdatedAt,
+			Enabled: heatingState.StateID != "closed",
 		},
 	}
 
@@ -188,8 +185,7 @@ func (h *APIHandler) SetHotWater(c *gin.Context) {
 	response := models.GadgetActionResponse{
 		Success: true,
 		HotWater: &models.GadgetStatus{
-			Enabled:     hotWaterState.State == "open",
-			LastUpdated: hotWaterState.UpdatedAt,
+			Enabled: hotWaterState.StateID != "closed",
 		},
 	}
 

@@ -62,24 +62,24 @@ func NewClient(clientID, clientSecret, heatingGadgetID, hotWaterGadgetID string)
 
 // GadgetState represents the state of a gadget
 type GadgetState struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	StateID   string    `json:"state_id"`
-	State     string    `json:"state"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	StateID string `json:"state_id"`
 }
 
 // GadgetActionResponse represents the response from a gadget action
 type GadgetActionResponse struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-	StateID string `json:"state_id"`
+	Success bool `json:"success"`
 }
 
 // GetAuthURL returns the OAuth2 authorization URL
 func (c *Client) GetAuthURL(state string, redirectURL string) string {
+	fmt.Printf("GetAuthURL: Starting with state=%s, redirectURL=%s\n", state, redirectURL)
 	c.config.RedirectURL = redirectURL
-	return c.config.AuthCodeURL(state, oauth2.AccessTypeOffline)
+	fmt.Printf("GetAuthURL: Config redirect URL set to: %s\n", c.config.RedirectURL)
+	authURL := c.config.AuthCodeURL(state, oauth2.AccessTypeOffline)
+	fmt.Printf("GetAuthURL: Generated auth URL: %s\n", authURL)
+	return authURL
 }
 
 // ExchangeCode exchanges an authorization code for tokens
@@ -160,14 +160,10 @@ func (c *Client) PerformGadgetAction(ctx context.Context, token *oauth2.Token, g
 		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, string(body))
 	}
 
-	var actionResp GadgetActionResponse
-	if err := json.Unmarshal(body, &actionResp); err != nil {
-		log.Printf("PerformGadgetAction: JSON decode failed: %v", err)
-		return nil, fmt.Errorf("failed to decode action response: %w", err)
-	}
-
-	log.Printf("PerformGadgetAction: Successfully performed action: %+v", actionResp)
-	return &actionResp, nil
+	log.Printf("PerformGadgetAction: Successfully performed action")
+	return &GadgetActionResponse{
+		Success: true,
+	}, nil
 }
 
 // GetHeatingState gets the current heating system state
@@ -182,18 +178,18 @@ func (c *Client) GetHotWaterState(ctx context.Context, token *oauth2.Token) (*Ga
 
 // SetHeating turns heating on or off
 func (c *Client) SetHeating(ctx context.Context, token *oauth2.Token, enabled bool) (*GadgetActionResponse, error) {
-	action := "close"
+	action := "open"
 	if enabled {
-		action = "open"
+		action = "close"
 	}
 	return c.PerformGadgetAction(ctx, token, c.heatingGadgetID, action)
 }
 
 // SetHotWater turns hot water on or off
 func (c *Client) SetHotWater(ctx context.Context, token *oauth2.Token, enabled bool) (*GadgetActionResponse, error) {
-	action := "close"
+	action := "open"
 	if enabled {
-		action = "open"
+		action = "close"
 	}
 	return c.PerformGadgetAction(ctx, token, c.hotWaterGadgetID, action)
 }

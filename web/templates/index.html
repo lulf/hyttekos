@@ -11,11 +11,6 @@
     <div class="container">
         <header class="cabin-header">
             <h1 class="cabin-title">🏔️ Hyttekos</h1>
-            <p class="cabin-subtitle">Hyttestyringssystem</p>
-            <div class="current-time" id="current-time">
-                <div class="date"></div>
-                <div class="time"></div>
-            </div>
         </header>
 
         <main class="main-content">
@@ -36,7 +31,7 @@
                     <span>Temperatursensor tilkoblet</span>
                 </div>
                 <div class="last-sync">
-                    <span id="last-sync-time">Sist synkronisert: Nå nettopp</span>
+                    <span id="last-sync-time">Sist oppdatert: Nå nettopp</span>
                 </div>
             </div>
         </main>
@@ -50,37 +45,22 @@
     </div>
 
     <script>
-        // Update current time
-        function updateTime() {
-            const now = new Date();
-            const timeEl = document.querySelector('.current-time .time');
-            const dateEl = document.querySelector('.current-time .date');
-            
-            if (timeEl && dateEl) {
-                timeEl.textContent = now.toLocaleTimeString('nb-NO', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false
-                });
-                dateEl.textContent = now.toLocaleDateString('nb-NO', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                });
-            }
-        }
-        
-        // Update time immediately and then every second
-        updateTime();
-        setInterval(updateTime, 1000);
-        
         // Auto-refresh temperature every 30 seconds
         setInterval(function() {
             htmx.ajax('GET', '/htmx/temperature', {target: '.temperature-card'});
+            const now = new Date();
             document.getElementById('last-sync-time').textContent = 
-                'Sist synkronisert: ' + new Date().toLocaleTimeString('nb-NO', {hour12: false});
+                'Sist oppdatert: ' + now.toLocaleString('nb-NO', {hour12: false});
         }, 30000);
+        
+        // Set initial timestamp
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const syncEl = document.getElementById('last-sync-time');
+            if (syncEl) {
+                syncEl.textContent = 'Sist oppdatert: ' + now.toLocaleString('nb-NO', {hour12: false});
+            }
+        });
     </script>
 </body>
 </html>

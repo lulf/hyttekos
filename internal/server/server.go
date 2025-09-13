@@ -2,6 +2,7 @@ package server
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -39,12 +40,18 @@ func New(cfg *config.Config, db *sql.DB) *Server {
 	)
 
 	// Create session store
+	fmt.Printf("Server: Creating session store with secret length: %d\n", len(cfg.SessionSecret))
+	if cfg.SessionSecret == "" {
+		fmt.Printf("Server: ERROR - Session secret is empty!\n")
+	}
 	sessionStore := sessions.NewCookieStore([]byte(cfg.SessionSecret))
 	sessionStore.Options.HttpOnly = true
-	sessionStore.Options.Secure = false // Works for both HTTP (local) and HTTPS (fly.io with internal routing)
+	sessionStore.Options.Secure = true // Enable secure cookies for HTTPS
 	sessionStore.Options.SameSite = http.SameSiteLaxMode
 	sessionStore.Options.Path = "/"
 	sessionStore.Options.MaxAge = 86400 * 30 // 30 days
+	fmt.Printf("Server: Session store created with options: HttpOnly=%v, Secure=%v, MaxAge=%d\n", 
+		sessionStore.Options.HttpOnly, sessionStore.Options.Secure, sessionStore.Options.MaxAge)
 
 	server := &Server{
 		config:       cfg,

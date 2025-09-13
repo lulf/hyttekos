@@ -1,34 +1,27 @@
-<div class="control-card hot-water-control">
-    <div class="card-header">
-        <div class="water-icon">
-            <div class="water-drop">
-                <div class="water-shine"></div>
+<div class="hot-water-card" id="hot-water-card">
+    <div class="control-card hot-water-control">
+        <div class="card-header">
+            <div class="water-icon">
+                <div class="water-drop">
+                    <div class="water-shine"></div>
+                </div>
+            </div>
+            <div class="control-info">
+                <h3>Varmtvann</h3>
             </div>
         </div>
-        <div class="control-info">
-            <h3>Varmtvannssystem</h3>
-            <div class="status-indicator {{if .hotWater.Enabled}}on{{else}}off{{end}}">
-                {{if .hotWater.Enabled}}PÅ{{else}}AV{{end}}
-            </div>
+        
+        <div class="card-body">
+            <span class="toggle-label">{{if .hotWater.Enabled}}På{{else}}Av{{end}}</span>
+            <button class="toggle-switch {{if .hotWater.Enabled}}enabled{{else}}disabled{{end}}" 
+                    hx-post="/htmx/hot-water/toggle" 
+                    hx-target="#hot-water-card"
+                    hx-swap="outerHTML"
+                    hx-indicator="#hotwater-loading">
+                <div id="hotwater-loading" class="htmx-indicator">
+                    <div class="loading-spinner"></div>
+                </div>
+            </button>
         </div>
-    </div>
-    
-    <div class="card-body">
-        <button class="toggle-button {{if .hotWater.Enabled}}enabled{{else}}disabled{{end}}" 
-                hx-post="/htmx/hot-water/toggle" 
-                hx-target="#hot-water-card"
-                hx-swap="outerHTML"
-                hx-indicator="#hotwater-loading">
-            <span class="button-text">
-                {{if .hotWater.Enabled}}Slå av varmtvann{{else}}Slå på varmtvann{{end}}
-            </span>
-            <div id="hotwater-loading" class="htmx-indicator">
-                <div class="loading-spinner"></div>
-            </div>
-        </button>
-    </div>
-    
-    <div class="card-footer">
-        Sist endret: {{.hotWater.LastUpdated.Format "Mon 15:04"}}
     </div>
 </div>

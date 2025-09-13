@@ -100,7 +100,7 @@ func (h *WebHandler) ToggleHeating(c *gin.Context) {
 	}
 
 	// Toggle the state
-	newEnabled := heatingState.State != "open"
+	newEnabled := heatingState.StateID == "closed"
 	_, err = h.akilesClient.SetHeating(c.Request.Context(), token, newEnabled)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
@@ -119,8 +119,7 @@ func (h *WebHandler) ToggleHeating(c *gin.Context) {
 	}
 
 	heating := models.GadgetStatus{
-		Enabled:     updatedState.State == "open",
-		LastUpdated: updatedState.UpdatedAt,
+		Enabled: updatedState.StateID != "closed",
 	}
 
 	c.HTML(http.StatusOK, "heating-card.html", gin.H{
@@ -146,7 +145,7 @@ func (h *WebHandler) ToggleHotWater(c *gin.Context) {
 	}
 
 	// Toggle the state
-	newEnabled := hotWaterState.State != "open"
+	newEnabled := hotWaterState.StateID == "closed"
 	_, err = h.akilesClient.SetHotWater(c.Request.Context(), token, newEnabled)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "error-fragment.html", gin.H{
@@ -165,8 +164,7 @@ func (h *WebHandler) ToggleHotWater(c *gin.Context) {
 	}
 
 	hotWater := models.GadgetStatus{
-		Enabled:     updatedState.State == "open",
-		LastUpdated: updatedState.UpdatedAt,
+		Enabled: updatedState.StateID != "closed",
 	}
 
 	c.HTML(http.StatusOK, "hot-water-card.html", gin.H{
@@ -229,12 +227,10 @@ func (h *WebHandler) getSystemStatus(c *gin.Context, token *oauth2.Token) (*mode
 
 	status := &models.SystemStatus{
 		Heating: models.GadgetStatus{
-			Enabled:     heatingState.State == "open",
-			LastUpdated: heatingState.UpdatedAt,
+			Enabled: heatingState.StateID != "closed",
 		},
 		HotWater: models.GadgetStatus{
-			Enabled:     hotWaterState.State == "open",
-			LastUpdated: hotWaterState.UpdatedAt,
+			Enabled: hotWaterState.StateID != "closed",
 		},
 	}
 

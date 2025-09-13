@@ -1,4 +1,4 @@
-/* Hyttekos - Cozy Cabin Styling */
+/* Hyttekos - Modern Clean Cabin Styling */
 
 * {
     margin: 0;
@@ -8,8 +8,8 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, #2d1810 0%, #1a0e08 100%);
-    color: #FFE4B5;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    color: #2c3e50;
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -22,83 +22,36 @@ body {
 
 /* Header Styling */
 .cabin-header {
-    background: linear-gradient(90deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
-    background-size: 200% 100%;
-    animation: woodGrain 10s ease-in-out infinite alternate;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
     padding: 20px 0;
     margin-bottom: 30px;
-    border-bottom: 3px solid #654321;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
 }
 
-.cabin-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(101, 67, 33, 0.1) 2px,
-        rgba(101, 67, 33, 0.1) 4px
-    );
-    pointer-events: none;
-}
-
-@keyframes woodGrain {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
 
 .cabin-title {
     text-align: center;
-    font-size: 2.5rem;
-    color: #FFE4B5;
-    font-family: Georgia, serif;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin-bottom: 5px;
+    font-size: 2.8rem;
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 10px;
     position: relative;
     z-index: 1;
 }
 
 .cabin-subtitle {
     text-align: center;
-    color: #DEB887;
-    font-size: 1rem;
-    margin-bottom: 20px;
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    font-weight: 400;
     position: relative;
     z-index: 1;
 }
 
-.current-time {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background: rgba(62, 39, 35, 0.9);
-    padding: 10px 15px;
-    border-radius: 10px;
-    border: 1px solid #8D6E63;
-    text-align: center;
-    backdrop-filter: blur(5px);
-}
-
-.current-time .date {
-    font-size: 0.8rem;
-    color: #DEB887;
-    margin-bottom: 2px;
-}
-
-.current-time .time {
-    font-size: 1.1rem;
-    color: #FFE4B5;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
-}
 
 /* Main Content */
 .main-content {
@@ -111,28 +64,16 @@ body {
 }
 
 .temperature-card {
-    background: rgba(74, 44, 42, 0.95);
-    border: 2px solid #8D6E63;
-    border-radius: 15px;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 30px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
 }
 
-.temperature-card::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    border-radius: 10px;
-    background: rgba(93, 64, 55, 0.3);
-    z-index: 0;
-}
 
 .temperature-card .card-header {
     display: flex;
@@ -153,9 +94,9 @@ body {
 }
 
 .thermometer-bulb {
-    width: 16px;
-    height: 16px;
-    background: #FF6B35;
+    width: 18px;
+    height: 18px;
+    background: #e74c3c;
     border-radius: 50%;
     position: absolute;
     bottom: 5px;
@@ -164,13 +105,13 @@ body {
 }
 
 .thermometer-tube {
-    width: 6px;
+    width: 8px;
     height: 35px;
-    background: #FF6B35;
-    border-radius: 3px 3px 0 0;
+    background: #e74c3c;
+    border-radius: 4px 4px 0 0;
     position: absolute;
     top: 10px;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .degree-symbol {
@@ -188,25 +129,17 @@ body {
 }
 
 .temperature-info h3 {
-    color: #FFE4B5;
+    color: #2c3e50;
     margin-bottom: 10px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
 }
 
 .temperature-reading {
-    font-size: 2.5rem;
-    color: #FF8A65;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
-}
-
-.temperature-card .card-footer {
-    margin-top: 15px;
-    text-align: right;
-    color: #BCAAA4;
-    font-size: 0.9rem;
-    position: relative;
-    z-index: 1;
+    font-size: 3rem;
+    color: #e74c3c;
+    font-weight: 700;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Control Cards */
@@ -218,31 +151,19 @@ body {
 }
 
 .control-card {
-    background: rgba(74, 44, 42, 0.95);
-    border: 2px solid #8D6E63;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .control-card:hover {
-    transform: translateY(-2px);
-}
-
-.control-card::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    border-radius: 10px;
-    background: rgba(93, 64, 55, 0.2);
-    z-index: 0;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .control-card .card-header {
@@ -256,12 +177,15 @@ body {
 
 /* Fire Icon for Heating */
 .fire-icon {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, #ff7f32, #e85a00);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(255, 127, 50, 0.3);
 }
 
 .flame {
@@ -271,61 +195,64 @@ body {
 }
 
 .flame1 {
-    width: 20px;
-    height: 30px;
-    background: #FF5722;
-    left: 15px;
+    width: 18px;
+    height: 28px;
+    background: white;
+    left: 21px;
     animation-delay: 0s;
 }
 
 .flame2 {
-    width: 15px;
-    height: 25px;
-    background: #FF8A50;
-    left: 18px;
+    width: 12px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.8);
+    left: 24px;
     top: 3px;
     animation-delay: 0.3s;
 }
 
 .flame3 {
-    width: 8px;
-    height: 15px;
-    background: #FFB74D;
-    left: 21px;
+    width: 6px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    left: 27px;
     top: 8px;
     animation-delay: 0.6s;
 }
 
 @keyframes flicker {
-    0% { transform: scale(1) rotate(-2deg); }
-    100% { transform: scale(1.1) rotate(2deg); }
+    0% { transform: scale(1) rotate(-1deg); }
+    100% { transform: scale(1.05) rotate(1deg); }
 }
 
 /* Water Drop Icon */
 .water-icon {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, #7fa68a, #5a7c65);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(127, 166, 138, 0.3);
 }
 
 .water-drop {
-    width: 20px;
-    height: 30px;
-    background: #2196F3;
+    width: 18px;
+    height: 28px;
+    background: white;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     position: relative;
     animation: waterDrop 2s ease-in-out infinite;
 }
 
 .water-shine {
-    width: 6px;
-    height: 8px;
-    background: #BBDEFB;
+    width: 5px;
+    height: 7px;
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     position: absolute;
-    top: 8px;
+    top: 7px;
     left: 4px;
 }
 
@@ -335,87 +262,75 @@ body {
 }
 
 .control-info h3 {
-    color: #FFE4B5;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
-.status-indicator {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    display: inline-block;
-}
-
-.status-indicator.on {
-    background: rgba(76, 175, 80, 0.2);
-    color: #C8E6C9;
-    border: 1px solid #4CAF50;
-}
-
-.status-indicator.off {
-    background: rgba(158, 158, 158, 0.2);
-    color: #E0E0E0;
-    border: 1px solid #9E9E9E;
-}
-
-/* Toggle Buttons */
+/* Toggle Slider */
 .card-body {
     position: relative;
     z-index: 1;
-    margin-bottom: 15px;
-}
-
-.toggle-button {
-    width: 100%;
-    padding: 15px 20px;
-    border-radius: 25px;
-    border: 2px solid;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: none;
-    color: white;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
-.toggle-button.enabled {
-    background: #FF5722;
-    border-color: #FF8A50;
-    color: white;
+.toggle-label {
+    color: #7f8c8d;
+    font-size: 1rem;
+    font-weight: 500;
 }
 
-.toggle-button.enabled:hover {
-    background: #FF8A50;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
-}
-
-.toggle-button.disabled {
-    background: #757575;
-    border-color: #9E9E9E;
-    color: white;
-    opacity: 0.7;
-}
-
-.toggle-button.disabled:hover {
-    background: #9E9E9E;
-    opacity: 1;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(117, 117, 117, 0.3);
-}
-
-.card-footer {
-    color: #BCAAA4;
-    font-size: 0.8rem;
+/* Toggle Switch */
+.toggle-switch {
     position: relative;
-    z-index: 1;
+    width: 60px;
+    height: 30px;
+    background: #bdc3c7;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border: none;
+    outline: none;
+}
+
+.toggle-switch.enabled {
+    background: #ff7f32;
+}
+
+.toggle-switch.disabled {
+    background: #bdc3c7;
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    will-change: transform;
+}
+
+.toggle-switch.enabled::after {
+    transform: translateX(30px);
+}
+
+.toggle-switch:hover {
+    transform: scale(1.02);
+    transition: transform 0.1s ease;
+}
+
+.toggle-switch:active::after {
+    width: 28px;
+    transition: width 0.1s ease;
 }
 
 /* Status Bar */
@@ -458,15 +373,16 @@ body {
 
 /* Footer */
 .cabin-footer {
-    background: linear-gradient(90deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
     padding: 20px 0;
     text-align: center;
-    border-top: 3px solid #654321;
+    border-radius: 25px 25px 0 0;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -474,26 +390,28 @@ body {
 }
 
 .cabin-footer p {
-    color: #8D6E63;
+    color: #7f8c8d;
     font-size: 0.9rem;
     margin: 0;
     padding-left: 20px;
 }
 
 .logout-btn {
-    background: rgba(62, 39, 35, 0.8);
-    color: #FFE4B5;
-    border: 1px solid #8D6E63;
-    padding: 8px 16px;
-    border-radius: 20px;
+    background: #7fa68a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
     cursor: pointer;
     margin-right: 20px;
     transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .logout-btn:hover {
-    background: rgba(62, 39, 35, 1);
-    transform: translateY(-1px);
+    background: #5a7c65;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(127, 166, 138, 0.3);
 }
 
 /* Loading States */
@@ -506,8 +424,8 @@ body {
 .loading-spinner {
     width: 30px;
     height: 30px;
-    border: 3px solid rgba(255, 138, 80, 0.3);
-    border-top: 3px solid #FF8A50;
+    border: 3px solid rgba(255, 127, 50, 0.3);
+    border-top: 3px solid #ff7f32;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: 0 auto 15px;
