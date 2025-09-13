@@ -53,7 +53,7 @@
                         
                         <div class="card-body">
                             <span class="toggle-label">{{if .heating.Enabled}}På{{else}}Av{{end}}</span>
-                            <form method="POST" action="/toggle/heating" style="display: inline;">
+                            <form method="POST" action="/toggle/heating" style="display: inline;" onsubmit="toggleButtonState(this)">
                                 <button type="submit" class="toggle-switch {{if .heating.Enabled}}enabled{{else}}disabled{{end}}">
                                     <span class="sr-only">Toggle heating</span>
                                 </button>
@@ -78,7 +78,7 @@
                         
                         <div class="card-body">
                             <span class="toggle-label">{{if .hotWater.Enabled}}På{{else}}Av{{end}}</span>
-                            <form method="POST" action="/toggle/hot-water" style="display: inline;">
+                            <form method="POST" action="/toggle/hot-water" style="display: inline;" onsubmit="toggleButtonState(this)">
                                 <button type="submit" class="toggle-switch {{if .hotWater.Enabled}}enabled{{else}}disabled{{end}}">
                                     <span class="sr-only">Toggle hot water</span>
                                 </button>
@@ -108,5 +108,27 @@
             </form>
         </footer>
     </div>
+
+    <script>
+    function toggleButtonState(form) {
+        // Find the button within the form
+        const button = form.querySelector('.toggle-switch');
+        const label = form.parentElement.querySelector('.toggle-label');
+        
+        // Immediately toggle the visual state
+        if (button.classList.contains('enabled')) {
+            button.classList.remove('enabled');
+            button.classList.add('disabled');
+            if (label) label.textContent = 'Av';
+        } else {
+            button.classList.remove('disabled');
+            button.classList.add('enabled');
+            if (label) label.textContent = 'På';
+        }
+        
+        // Let the form submit normally
+        return true;
+    }
+    </script>
 </body>
 </html>
