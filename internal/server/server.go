@@ -94,12 +94,12 @@ func (s *Server) setupRoutes() {
 	{
 		auth.GET("/login", authHandler.Login)
 		auth.GET("/callback", authHandler.Callback)
-		auth.POST("/logout", middleware.RequireAuth(s.sessionStore, s.sessionRepo), authHandler.Logout)
+		auth.POST("/logout", middleware.RequireAuth(s.sessionStore, s.sessionRepo, s.akilesClient), authHandler.Logout)
 	}
 
 	// API routes (JSON)
 	api := s.engine.Group("/api")
-	api.Use(middleware.RequireAuth(s.sessionStore, s.sessionRepo))
+	api.Use(middleware.RequireAuth(s.sessionStore, s.sessionRepo, s.akilesClient))
 	{
 		api.GET("/status", apiHandler.GetStatus)
 		api.POST("/heating", apiHandler.SetHeating)
@@ -110,7 +110,7 @@ func (s *Server) setupRoutes() {
 
 	// Form toggle routes
 	toggle := s.engine.Group("/toggle")
-	toggle.Use(middleware.RequireAuth(s.sessionStore, s.sessionRepo))
+	toggle.Use(middleware.RequireAuth(s.sessionStore, s.sessionRepo, s.akilesClient))
 	{
 		toggle.POST("/heating", webHandler.ToggleHeating)
 		toggle.POST("/hot-water", webHandler.ToggleHotWater)
@@ -120,7 +120,7 @@ func (s *Server) setupRoutes() {
 	s.engine.POST("/api/temperature", tempHandler.SubmitTemperature)
 
 	// Main web routes
-	s.engine.GET("/", middleware.RequireAuth(s.sessionStore, s.sessionRepo), webHandler.Index)
+	s.engine.GET("/", middleware.RequireAuth(s.sessionStore, s.sessionRepo, s.akilesClient), webHandler.Index)
 	s.engine.GET("/login", webHandler.LoginPage)
 
 	// Health check

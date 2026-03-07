@@ -48,7 +48,7 @@ func (r *SessionRepository) GetByID(id string) (*models.Session, error) {
 	query := `
 		SELECT id, user_id, access_token, refresh_token, expires_at, created_at
 		FROM sessions
-		WHERE id = $1 AND expires_at > datetime('now')
+		WHERE id = $1
 	`
 	
 	var session models.Session
@@ -85,9 +85,9 @@ func (r *SessionRepository) Delete(id string) error {
 
 // CleanupExpired removes all expired sessions
 func (r *SessionRepository) CleanupExpired() (int64, error) {
-	query := `DELETE FROM sessions WHERE expires_at < datetime('now')`
-	
-	result, err := r.db.Exec(query)
+	query := `DELETE FROM sessions WHERE expires_at < $1`
+
+	result, err := r.db.Exec(query, time.Now())
 	if err != nil {
 		return 0, fmt.Errorf("failed to cleanup expired sessions: %w", err)
 	}
@@ -103,12 +103,12 @@ func (r *SessionRepository) CleanupExpired() (int64, error) {
 // UpdateTokens updates the tokens for an existing session
 func (r *SessionRepository) UpdateTokens(id, accessToken, refreshToken string, expiresAt time.Time) error {
 	query := `
-		UPDATE sessions 
-		SET access_token = $2, refresh_token = $3, expires_at = $4
-		WHERE id = $1
+		UPDATE sessions
+		SET access_token = $1, refresh_token = $2, expires_at = $3
+		WHERE id = $4
 	`
-	
-	result, err := r.db.Exec(query, id, accessToken, refreshToken, expiresAt)
+
+	result, err := r.db.Exec(query, accessToken, refreshToken, expiresAt, id)
 	if err != nil {
 		return fmt.Errorf("failed to update session tokens: %w", err)
 	}
