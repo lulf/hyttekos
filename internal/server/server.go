@@ -13,6 +13,7 @@ import (
 	"hyttekos/internal/repository"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 )
 
@@ -49,7 +50,14 @@ func New(cfg *config.Config, db *sql.DB) *Server {
 	sessionStore.Options.Secure = true // Enable secure cookies for HTTPS
 	sessionStore.Options.SameSite = http.SameSiteLaxMode
 	sessionStore.Options.Path = "/"
-	sessionStore.Options.MaxAge = 86400 * 30 // 30 days
+	// Browsers cap cookie lifetime at 400 days; it's renewed on every authenticated
+	// request. Disable securecookie's own timestamp check so the login never expires.
+	sessionStore.MaxAge(86400 * 400)
+	for _, codec := range sessionStore.Codecs {
+		if sc, ok := codec.(*securecookie.SecureCookie); ok {
+			sc.MaxAge(0)
+		}
+	}
 	fmt.Printf("Server: Session store created with options: HttpOnly=%v, Secure=%v, MaxAge=%d\n", 
 		sessionStore.Options.HttpOnly, sessionStore.Options.Secure, sessionStore.Options.MaxAge)
 

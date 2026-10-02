@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -50,6 +51,17 @@ func RequireAuth(store sessions.Store, sessionRepo *repository.SessionRepository
 			newToken, err := akilesClient[0].RefreshToken(c.Request.Context(), oldToken)
 			if err != nil {
 				fmt.Printf("RequireAuth: Failed to refresh token: %v\n", err)
+				// Only a rejected refresh token means the login is gone; anything
+				// else (network, Akiles down) is transient, so keep the session.
+				var rerr *oauth2.RetrieveError
+				if !errors.As(err, &rerr) || rerr.ErrorCode != "invalid_grant" {
+					c.JSON(http.StatusServiceUnavailable, gin.H{
+						"error":   "refresh_failed",
+						"message": "Could not reach Akiles, please try again",
+					})
+					c.Abort()
+					return
+				}
 				delete(session.Values, "session_id")
 				session.Save(c.Request, c.Writer)
 				sessionRepo.Delete(sessionID)
@@ -63,6 +75,11 @@ func RequireAuth(store sessions.Store, sessionRepo *repository.SessionRepository
 			dbSession.AccessToken = newToken.AccessToken
 			dbSession.RefreshToken = newToken.RefreshToken
 			dbSession.ExpiresAt = newToken.Expiry
+		}
+
+		// Re-save to slide the cookie expiry forward
+		if err := session.Save(c.Request, c.Writer); err != nil {
+			fmt.Printf("RequireAuth: Failed to renew session cookie: %v\n", err)
 		}
 
 		// Store session info in context for handlers
